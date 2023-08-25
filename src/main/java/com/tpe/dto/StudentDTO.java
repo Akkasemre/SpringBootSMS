@@ -1,6 +1,6 @@
 package com.tpe.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tpe.domain.Student;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -30,9 +30,19 @@ public class StudentDTO {
     @Email(message = "Provide valid email")
     private String email;
 
-    private/* final*/ String phoneNumber;
+    private String phoneNumber;
 
-    private LocalDateTime createDate = LocalDateTime.now();//4:20:9:123123
+    private LocalDateTime createDate = LocalDateTime.now();
+
+    public StudentDTO (Student student){ //pojo yu DTO ya çevirir
+        this.id=student.getId();
+        this.firstName = student.getName();
+        this.lastName = student.getLastName();
+        this.grade = student.getGrade();
+        this.email = student.getEmail();
+        this.phoneNumber = student.getPhoneNumber();
+        this.createDate = student.getCreateDate();
+    }
 
 
 }
