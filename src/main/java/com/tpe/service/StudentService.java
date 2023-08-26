@@ -60,7 +60,7 @@ public class StudentService {
     public void updateStudent(Long id, StudentDTO studentDTO) {
         //! id li ögrenci var mı ?
         Student student = findStudent(id);
-        //! email enique mi ?
+        //! email unique mi ?
         /*
                 1) mevcut email : mrc,  yeni : mrc -->TRUE
                 2) mevcut email: mrc,   yeni: ahmt(DB de zaten var ) --> FALSE

@@ -34,7 +34,7 @@ public class StudentDTO {
 
     private LocalDateTime createDate = LocalDateTime.now();
 
-    public StudentDTO (Student student){ //pojo yu DTO ya çevirir
+    public StudentDTO (Student student){ //*pojo yu DTO ya çevirir
         this.id=student.getId();
         this.firstName = student.getName();
         this.lastName = student.getLastName();

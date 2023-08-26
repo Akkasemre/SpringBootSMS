@@ -4,6 +4,8 @@ import com.tpe.domain.Student;
 import com.tpe.dto.StudentDTO;
 import com.tpe.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/students")// http://localhost:8080/students
 @RequiredArgsConstructor
 public class StudentController {
+
+    Logger logger = LoggerFactory.getLogger(StudentController.class);//*loglama işlemleri icin logger hazir.
 
     private final StudentService studentService;
 
@@ -75,8 +80,8 @@ public class StudentController {
     }
 
     //? Not: update()********************
-//    @PatchMapping //! parçalı şekişde günceller. güncellenmeyen eski değerler kalır yeniler güncellenir.
-    @PutMapping("/{id}")     //bütün fieldları güncellememiz (setlemek) lazım. setlenmeyenleri null olarak değiştirir
+    //*@PatchMapping //! parçalı şekişde günceller. güncellenmeyen eski değerler kalır yeniler güncellenir.
+    @PutMapping("/{id}")     //*bütün fieldları güncellememiz (setlemek) lazım. setlenmeyenleri (null) olarak değiştirir
     //? http://localhost:8080/students/1+ PUT + JSON
     public ResponseEntity<String> updateStudent(@PathVariable Long id,
                                                 @RequestBody StudentDTO studentDTO) {
@@ -87,15 +92,15 @@ public class StudentController {
 
     }
 
-        //? Not: Pageble********************
+    //? Not: Pageble********************
     //todo Pageable http://localhost:8080/students/page?page=0&size=10&sort=name&direction=ASC yada DCS + Get
     @GetMapping("/page")
     public ResponseEntity<Page<Student>> getAllWithPage(
             //zorunlu 2 opsiyonel 4 tane parametre alır
             /*zorunlu*/     @RequestParam("page") int page, //*kaçıncı sayfanın gelecegini söylüyoruz
             /*zorunlu*/     @RequestParam("size") int size,//*her page de kaç ürün olsun
-            /*opsiyonel*/   @RequestParam("sort") String prop, //hangi field a göre sıralama
-            /*opsiyonel*/   @RequestParam("direction") Sort.Direction direction//natural ordermı değilmi o bilgi veriliyor.
+            /*opsiyonel*/   @RequestParam("sort") String prop, //*hangi field a göre sıralama
+            /*opsiyonel*/   @RequestParam("direction") Sort.Direction direction//*natural ordermı değilmi o bilgi veriliyor.
     ) {
         Pageable pageable = PageRequest.of(page,size,Sort.by(direction, prop));
         //!(bir üstteki kod için)Best practice : bu satır burda değil service classında olur service class ında olustururz.
@@ -125,4 +130,10 @@ public class StudentController {
         return ResponseEntity.ok(studentDTO);
      }
 
+     //? NOT: looger icin yazildi.
+    @GetMapping("/welcome")   //* http://localhost:8080/students/welcome  + GET
+    public  String welcome(HttpServletRequest request){  //! request üzerinden endpointi tetikledik.
+        logger.warn("-------------------------------- Welcome {}",request.getServletPath());
+        return "Welcome to Student Controller";
+    }
 }

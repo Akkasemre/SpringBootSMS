@@ -21,8 +21,8 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 
     @Query("SELECT s FROM Student s WHERE s.grade=:pGrade")//Student s :pGrade==> parametredeki grade demek
-    // @Query("SELECT s FROM Student s WHERE s.grade=:pGrade") ==> hql
-    //@Query(value = "SELECT * FROM Student s WHERE s.grade=:pGrade",nativeQuery = true)//native SQL
+        //* @Query("SELECT s FROM Student s WHERE s.grade=:pGrade") ==> hql
+        //*@Query(value = "SELECT * FROM Student s WHERE s.grade=:pGrade",nativeQuery = true)//native SQL
     List<Student> findAllEqualsGrade(@Param("pGrade") Integer grade);
 
     //! niye HQL yerine JPQL kullanmalıyım ? jpa ile uyumlu oldugundan.

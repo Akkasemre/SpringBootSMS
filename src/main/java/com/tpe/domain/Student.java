@@ -1,6 +1,7 @@
 package com.tpe.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -48,6 +51,15 @@ public class Student {
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "MM/dd/yyyy HH:mm:ss",timezone = "Turkey")//std_ .. 4:20:09
     //sadece json değerini formatlar (client a gidecek Json ı formatlar) db deki veriyi formatlamaz.
     private LocalDateTime createDate = LocalDateTime.now();//4:20:9:123123
+
+    @OneToMany(mappedBy = "student")//book class ında hangi isimle yazdıysak onunla cagırıyoruz.
+    private List<Book> books = new ArrayList<>();
+
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 
 
